@@ -1,0 +1,56 @@
+[gd_scene load_steps=13 format=3 uid="uid://bvll7bxadp1j4"]
+
+[ext_resource type="PackedScene" uid="uid://kmfg4jjeok5y" path="res://Scenes/player.tscn" id="1_dw0i0"]
+[ext_resource type="Script" path="res://Scripts/Main.gd" id="1_uva4x"]
+[ext_resource type="Script" path="res://Scripts/player.gd" id="2_b8p7s"]
+[ext_resource type="PackedScene" uid="uid://yloik7hp048n" path="res://Scenes/chain.tscn" id="4_dsdir"]
+[ext_resource type="Script" path="res://Scripts/EnemySpawner.gd" id="5_a0m85"]
+[ext_resource type="PackedScene" uid="uid://c1pf2rk2pbhna" path="res://Scenes/enemy.tscn" id="6_5hxjj"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_lsm75"]
+
+[sub_resource type="Sky" id="Sky_xh5pr"]
+sky_material = SubResource("ProceduralSkyMaterial_lsm75")
+
+[sub_resource type="Environment" id="Environment_1dh8o"]
+background_mode = 2
+sky = SubResource("Sky_xh5pr")
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_3xxk1"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_3exsb"]
+size = Vector2(20, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ypylg"]
+size = Vector3(20, 0.1, 20)
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_uva4x")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1dh8o")
+camera_attributes = SubResource("CameraAttributesPractical_3xxk1")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("PlaneMesh_3exsb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_ypylg")
+
+[node name="Player" parent="." instance=ExtResource("1_dw0i0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.04178, 0.925488, 0.229725)
+script = ExtResource("2_b8p7s")
+
+[node name="Player2" parent="." instance=ExtResource("1_dw0i0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.11535, 0.88845, 1.20623)
+
+[node name="Chain" parent="." instance=ExtResource("4_dsdir")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.138144, 0.0500002, 1.40563)
+
+[node name="EnemySpawner" type="Node3D" parent="."]
+script = ExtResource("5_a0m85")
+enemy_scene = ExtResource("6_5hxjj")
